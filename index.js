@@ -3,6 +3,11 @@ const express = require('express')
 const morgan = require('morgan')
 const path = require('path')
 const sqlite3 = require('sqlite3').verbose()
+const { createHash } = require('crypto');
+
+function hash(string) {
+  return createHash('sha256').update(string).digest('hex');
+}
 
 // Create a new web application by calling the express function
 const app = express()
@@ -94,7 +99,7 @@ app.get('/viewenquiry', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
-  var sql = `SELECT COUNT(1) AS count FROM users WHERE username = '${req.body.username}' AND password = '${req.body.password}';`
+  var sql = `SELECT COUNT(1) AS count FROM users WHERE username = '${req.body.username}' AND password = '${hash(req.body.password)}';`
   console.log(sql)
   rows = db.prepare(sql).get()
   if (rows.count > 0) {

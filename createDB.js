@@ -1,5 +1,5 @@
 const path = require('path')
-const UserData = require(path.join(__dirname, 'data/users'));
+const UserData = require(path.join(__dirname, 'data/users_hashed'));
 const ProductData = require(path.join(__dirname, 'data/products'));
 const EnquiryData = require(path.join(__dirname, 'data/enquiries'));
 
