@@ -1,0 +1,70 @@
+<%- include('header'); -%>
+
+<div class="container-fluid">
+    <div class="row g-3">
+        <div class="col-md-1 col-1"></div>
+        <div class="col-md-5 col-11">
+            <h2 class="my-2">STORE LOCATION</h2>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4012.193011823461!2d144.29889229956638!3d-38.19767144737634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad413298609d90f%3A0xc0f7d39b2ebe86b2!2sDeakin%20University!5e0!3m2!1sen!2sau!4v1714739958103!5m2!1sen!2sau" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div class="col-md-0 col-1"></div>
+        <div class="col-md-5 col-11">
+            <h2 class="my-2">CONTACT DETAILS</h2>
+            <p>
+                <strong>Phone:</strong> 0412 345 678<br>
+                <strong>Email:</strong> fouracesshop@gmail.com
+            </p>
+            <br>
+            <h2 class="my-2">ENQUIRY FORM</h2>
+            <!-- <form action="/enquiry" method="post" id="postEnquiryForm"> -->
+            <form id="postEnquiryForm">
+                <div class="row my-2">
+                    <div class="col-7">
+                        <input type="text" class="form-control" id="inputName" placeholder="Name*" name="enquiryName">
+                    </div>
+                    <div class="col-5">
+                        <p><i><span id="nameCheck"></span></i></p>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-7">
+                        <input type="text" class="form-control" id="inputEmail" placeholder="Email*" name="enquiryEmail">
+                    </div>
+                    <div class="col-5">
+                        <p><i><span id="emailCheck"></span></i></p>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-7">
+                        <input type="text" class="form-control" id="inputPhone" placeholder="Phone*" name="enquiryPhone">
+                    </div>
+                    <div class="col-5">
+                        <p><i><span id="phoneCheck"></span></i></p>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-7">
+                        <textarea class="form-control" id="inputEnquiry" placeholder="How can we help?*" rows="5" name="enquiryText"></textarea>
+                    </div>
+                    <div class="col-5">
+                        <p><i><span id="enquiryCheck"></span></i></p>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-2">
+                        <button class="btn btn-primary" type="submit" onclick="validation()">Submit</button>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-primary" type="reset">Reset</button>
+                    </div>
+                    <div class="col-6">
+                        <a href="/viewenquiry" class="btn btn-info" role="button">View Enquiries</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-1 col-1"></div>
+    </div>
+</div>
+
+<%- include('footer'); -%>

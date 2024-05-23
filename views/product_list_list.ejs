@@ -1,0 +1,19 @@
+<% for (var i = 0; i < data.length; i++) { %>
+    <div class="bg-light mx-auto p-2">
+        <div class="row">
+            <div class="col-4">
+                <img class="img-fluid" src="<%= data[i].image_link %>" alt="<%= data[i].name %>" width="300px" height="300px">
+            </div>
+            <div class="col-8 d-flex flex-wrap">
+                <div class="col-12 align-self-start">
+                    <h4><%= data[i].name %></h4>
+                    <p class="m-0"><%= data[i].description %></p>
+                </div>
+                <div class="align-self-end mx-auto">
+                    <p class="price">PRICE: $<%= data[i].price %></p>
+                    <input class="btn btn-primary btn-md" type="submit" value="Add to Cart">
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>

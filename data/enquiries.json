@@ -1,0 +1,25 @@
+{
+    "enquiries": [
+        {
+            "id": 1,
+            "name": "Cong",
+            "email": "cong@deakin.edu.au",
+            "phone": "0123456789",
+            "enquiry": "I want to buy 2 Aces Red decks."
+        },
+        {
+            "id": 2,
+            "name": "Someone",
+            "email": "someone@deakin.edu.au",
+            "phone": "0123456987",
+            "enquiry": "I want to buy 1 copy of each deck."
+        },
+        {
+            "id": 3,
+            "name": "Player",
+            "email": "player@deakin.edu.au",
+            "phone": "0444444444",
+            "enquiry": "When will you have a new deck?"
+        }
+    ]
+}

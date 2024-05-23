@@ -1,0 +1,25 @@
+<%- include('header'); -%>
+
+<div class="container">
+    <h3>Enquiry data</h3>
+    <table class="table">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Enquiry</th>
+        </tr>
+        <% for (let i = 0; i < data.length; i++) { %>
+            <tr>
+                <td><%= data[i].id %></td>
+                <td><%= data[i].name %></td>
+                <td><%= data[i].email %></td>
+                <td><%= data[i].phone %></td>
+                <td><%= data[i].enquiry %></td>
+            </tr>
+        <% } %>
+    </table>
+</div>
+
+<%- include('footer'); -%>

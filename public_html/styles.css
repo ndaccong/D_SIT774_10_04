@@ -1,0 +1,98 @@
+.bg-banner {
+    background-image: url('images/banner.jpg');
+    background-size: cover;
+    background-position: 50% 36%;
+}
+
+p {
+    font-family: "Segoe UI", Helvetica, Arial, "Arial Unicode MS", sans-serif;
+}
+h1 {
+    margin-inline: 3rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-family: 'Oswald';
+    font-size: 28px;
+    font-weight: bold;
+}
+h2 {
+    margin-bottom: 20px;
+    font-family: 'Oswald';
+    font-size: 28px;
+    font-weight: bold;
+}
+h4 {
+    margin-inline: 0rem;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-family: "Segoe UI", Helvetica, Arial, "Arial Unicode MS", sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+}
+.title {
+    font-family: "Segoe UI Light", Helvetica, Arial, "Arial Unicode MS", sans-serif;
+    font-size: 60px;
+}
+.subtitle {
+    font-family: "Segoe UI Light", Helvetica, Arial, "Arial Unicode MS", sans-serif;
+    font-size: 30px;
+}
+
+.container-fluid {
+    padding-right: 0px;
+    padding-left: 0px;
+    justify-content: center;
+}
+.container {
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin: auto;
+}
+.card-text {
+    margin-left: 0px;
+    margin-right: 0px;
+    font-family: "Segoe UI", Helvetica, Arial, "Arial Unicode MS", sans-serif;
+    font-size: 12px;
+}
+
+.navbar-nav > li > a {
+    font-family: 'Oswald';
+    font-size: 16px;
+}
+
+a.active {
+    font-weight: bold;
+    color: #ff8400;
+}
+
+.heading {
+    font-size: 12px;
+}
+
+.carousel-caption {
+    font-family: 'Oswald';
+    color: black;
+    top: 87%;
+}
+
+.carousel { padding-bottom: 5rem; }
+.carousel-inner { overflow: visible; }
+.carousel { overflow: hidden; }
+
+.carousel-control-next, .carousel-control-prev, .carousel-indicators {
+    filter: invert(100%);
+}
+
+.card-text {
+    font-size: 18px;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-right: 2px;
+    text-align: center;
+}

@@ -1,0 +1,32 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "ACES RED",
+            "description": "ACES: Playing Cards for Poker. Back in a new Red colour.",
+            "image_link": "images/aces_red.jpg",
+            "price": 19.99
+        },
+        {
+            "id": 2,
+            "name": "BICYCLE",
+            "description": "Perfect for weddings, special events or anywhere you want to add a touch of class.",
+            "image_link": "images/bicycle.jpg",
+            "price": 14.99
+        },
+        {
+            "id": 3,
+            "name": "EPT",
+            "description": "Capture the authentix tournament vibes of the European Poker Tour with these exclusive playing cards.",
+            "image_link": "images/ept.jpg",
+            "price": 20.99
+        },
+        {
+            "id": 4,
+            "name": "LOTR",
+            "description": "One deck to rule them all.",
+            "image_link": "images/lotr.jpg",
+            "price": 29.99
+        }
+    ]
+}

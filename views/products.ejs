@@ -1,0 +1,43 @@
+<%- include('header'); -%>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2">
+            <form action="/filter" method="post">
+                <div class="container-fluid m-2">
+                    <label for="inputSearch" class="form-label">Search</label>
+                    <input type="text" class="form-control" id="inputSearch" placeholder="" name="searchText">
+                </div>
+                <div class="container-fluid m-2">
+                    <label for="priceRange" class="form-label">Show items &lt; <span>$<output id="amount" for="priceRange"><%= priceValue %></output></span></label>
+                    <input type="range" class="form-range" min="10" max="30" step="1" value="<%= priceValue %>" id="priceRange" name="priceFilter" oninput="amount.value=priceRange.value">
+                </div>
+                <div class="row m-2">
+                    <label class="form-label">View by</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input viewOptionRadio" type="radio" name="viewOption" id="inlineRadio1" value="grid" <%- viewOption == 'grid' ? 'checked' : '' %>>
+                        <label class="form-check-label" for="inlineRadio1">Grid</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input viewOptionRadio" type="radio" name="viewOption" id="inlineRadio2" value="list" <%- viewOption == 'list' ? 'checked' : '' %>>
+                        <label class="form-check-label" for="inlineRadio2">List</label>
+                    </div>
+                    <div class="container-fluid">
+                        <button type="submit" class="btn btn-primary">Show items</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-10">
+            <div class="row g-1">
+                <% if (viewOption == 'grid') { %>
+                    <%- include('product_list_grid'); -%>
+                <% } else { %>
+                    <%- include('product_list_list'); -%>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('footer'); -%>
