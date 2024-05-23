@@ -16,7 +16,11 @@ app.set('view engine', 'ejs')
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-let db = new sqlite3.Database('./data.db')
+// let db = new sqlite3.Database('./data.db')
+const Database = require('better-sqlite3')
+var db = new Database('new_data.db')
+
+db.pragma('journal_mode = WAL');
 
 var isLoggedIn = false
 var username = ''
@@ -51,15 +55,14 @@ app.get('/about_us', (req, res) => {
 
 app.get('/products', (req, res) => {
   var sql = `SELECT * FROM products`
-  db.all(sql, function (err, row) {
-    res.render('products', {
-      title: 'Products',
-      isLoggedIn: isLoggedIn,
-      username: username,
-      data: row,
-      priceValue: price,
-      viewOption: viewOption
-    })
+  rows = db.prepare(sql).all()
+  res.render('products', {
+    title: 'Products',
+    isLoggedIn: isLoggedIn,
+    username: username,
+    data: rows,
+    priceValue: price,
+    viewOption: viewOption
   })
 })
 
@@ -81,41 +84,39 @@ app.get('/blog', (req, res) => {
 
 app.get('/viewenquiry', (req, res) => {
   var sql = 'SELECT * FROM enquiries'
-  db.all(sql, function (err, row) {
-    res.render('viewenquiry', {
-      title: 'Enquiries',
-      isLoggedIn: isLoggedIn,
-      username: username,
-      data: row
-    })
+  rows = db.prepare(sql).all()
+  res.render('viewenquiry', {
+    title: 'Enquiries',
+    isLoggedIn: isLoggedIn,
+    username: username,
+    data: rows
   })
 })
 
 app.post('/login', (req, res) => {
   var sql = `SELECT COUNT(1) AS count FROM users WHERE username = '${req.body.username}' AND password = '${req.body.password}';`
   console.log(sql)
-  db.get(sql, function (err, row) {
-    if (row.count > 0) {
-      isLoggedIn = true
-      username = req.body.username
-      res.render('index', {
-        title: 'Four Aces Shop',
-        isLoggedIn: isLoggedIn,
-        username: req.body.username
-      })
-    }
-    else {
-      res.render('index', {
-        title: 'Four Aces Shop',
-        isLoggedIn: isLoggedIn
-      })
-    }
-  })
+  rows = db.prepare(sql).get()
+  if (rows.count > 0) {
+    isLoggedIn = true
+    username = req.body.username
+    res.render('index', {
+      title: 'Four Aces Shop',
+      isLoggedIn: isLoggedIn,
+      username: req.body.username
+    })
+  }
+  else {
+    res.render('index', {
+      title: 'Four Aces Shop',
+      isLoggedIn: isLoggedIn
+    })
+  }
 })
 
 app.post('/enquiry', (req, res) => {
   var sql = `INSERT OR IGNORE INTO enquiries (name, email, phone, enquiry) VALUES ('${req.body.name}', '${req.body.email}', '${req.body.phone}', '${req.body.enquiry}');`
-  db.run(sql)
+  db.prepare(sql).run()
 })
 
 app.post('/logout', (req, res) => {
@@ -137,15 +138,14 @@ app.post('/search', (req, res) => {
     WHERE (price < ${price})
       AND (name LIKE '%${req.body.searchText}%' OR description LIKE '%${req.body.searchText}%');`
   console.log(sql)
-  db.all(sql, function (err, row) {
-    res.render('products', {
-      title: 'Products',
-      isLoggedIn: isLoggedIn,
-      data: row,
-      priceValue: price,
-      username: username,
-      viewOption: viewOption
-    })
+  rows = db.prepare(sql).all()
+  res.render('products', {
+    title: 'Products',
+    isLoggedIn: isLoggedIn,
+    data: rows,
+    priceValue: price,
+    username: username,
+    viewOption: viewOption
   })
 })
 
@@ -168,15 +168,14 @@ app.post('/filter', (req, res) => {
       AND (name LIKE '%${searchText}%' OR description LIKE '%${searchText}%');`
   console.log(sql)
   console.log(req.body.searchText)
-  db.all(sql, function (err, row) {
-    res.render('products', {
-      title: 'Products',
-      isLoggedIn: isLoggedIn,
-      data: row,
-      priceValue: price,
-      username: username,
-      viewOption: viewOption
-    })
+  rows = db.prepare(sql).all()
+  res.render('products', {
+    title: 'Products',
+    isLoggedIn: isLoggedIn,
+    data: rows,
+    priceValue: price,
+    username: username,
+    viewOption: viewOption
   })
 })
 
