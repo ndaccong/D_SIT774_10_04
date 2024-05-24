@@ -62,6 +62,14 @@ h4 {
     font-size: 16px;
 }
 
+a.subtitle {
+    font-family: 'Oswald';
+    font-size: 32px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #ff6600;
+}
+
 a.active {
     font-weight: bold;
     color: #ff8400;

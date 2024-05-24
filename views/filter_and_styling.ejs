@@ -1,0 +1,161 @@
+<%- include('header'); -%>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <h1 class="mx-0">USER INTERFACE STYLING AND DYNAMIC CONTENTS</h1>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <p>
+                This blog page will explain how I use bootstrap 5, database and routing methods in NodeJS server to create a dynamic webpage.          
+            </p>
+            <h2>
+                User interface styling
+            </h2>
+            <p>
+                This tutorial will describe how changing the "View by" option will result in different view methods. The output of the two options are as below:
+            </p>
+            <div class="row">
+                <div class="col-6 mx-auto">
+                    <figure>
+                        <img class="img-fluid" src="images/product_list_grid.png" alt="Grid">
+                        <figcaption style="text-align: center;">View by grid</figcaption>
+                    </figure>
+                </div>
+                <div class="col-6">
+                    <figure>
+                        <img class="img-fluid" src="images/product_list_list.png" alt="List">
+                        <figcaption style="text-align: center;">View by list</figcaption>
+                    </figure>
+                </div>
+            </div>
+            <p>
+                To do this, I use EJS template to generate dynamic contents. Setup the main part of the product page (the part showing items) like this:
+            </p>
+            <pre><code>
+&lt;div class="row g-1"&gt;
+    &lt;% if (viewOption == 'grid') { %&gt;
+        &lt;%- include('product_list_grid'); -%&gt;
+    &lt;% } else { %&gt;
+        &lt;%- include('product_list_list'); -%&gt;
+    &lt;% } %&gt;
+&lt;/div&gt;
+            </code></pre>
+            <p>
+                Here, <code>product_list_grid</code> and <code>product_list_list</code> are separate ejs files, which are used to render html code for displaying the grid and list style. For example:
+            </p>
+            <pre><code>
+// product_list_grid.ejs
+&lt;% for (var i = 0; i &lt; data.length; i++) { %&gt;
+    &lt;div class="bg-light col-lg-6 col-12 p-2"&gt;
+        &lt;div class="row"&gt;
+            &lt;div class="col-7"&gt;
+                &lt;img class="img-fluid" src="&lt;%= data[i].image_link %&gt;" alt="&lt;%= data[i].name %&gt;" width="300px" height="300px"&gt;
+            &lt;/div&gt;
+            &lt;div class="col-5"&gt;
+                &lt;h4&gt;&lt;%= data[i].name %&gt;&lt;/h4&gt;
+                &lt;p class="m-0"&gt;&lt;%= data[i].description %&gt;&lt;/p&gt;
+                &lt;p class="price"&gt;PRICE: $&lt;%= data[i].price %&gt;&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;input class="btn btn-primary btn-sm" type="submit" value="Add to Cart"&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;% } %&gt;
+            </code></pre>
+            <p>
+                The <code>data</code> is data retrieved from the database after querying with the filters in the page. The <code>viewOption</code> variable is get from the radio button on the left of the page.
+            </p>
+
+            <h2>
+                Dynamic contents
+            </h2>
+            <p>
+                This section will explain how to apply search box and the slider filter to get the qualified products from database. First, we have to setup the search and filter form:
+            </p>
+            <div class="row">
+                <div class="col-8 m-0">
+                    <pre><code>
+&lt;div class="container-fluid m-2"&gt;
+    &lt;label for="inputSearch" class="form-label"&gt;Search&lt;/label&gt;
+    &lt;input type="text" class="form-control" id="inputSearch" placeholder="" name="searchText"&gt;
+&lt;/div&gt;
+&lt;div class="container-fluid m-2"&gt;
+    &lt;label for="priceRange" class="form-label"&gt;Show items &lt; &lt;span&gt;$&lt;output id="amount" for="priceRange"&gt;&lt;%= priceValue %&gt;&lt;/output&gt;&lt;/span&gt;&lt;/label&gt;
+    &lt;input type="range" class="form-range" min="10" max="30" step="1" value="&lt;%= priceValue %&gt;" id="priceRange" name="priceFilter" oninput="amount.value=priceRange.value"&gt;
+&lt;/div&gt; 
+                    </code></pre>
+                </div>
+                <div class="col-4 mx-auto">
+                    <figure>
+                        <img class="img-fluid" src="images/search_filter.png" alt="Search and filter">
+                        <figcaption style="text-align: center;">Search and filter form</figcaption>
+                    </figure>
+                </div>
+            </div>
+            <p>
+                Then, in the server code (<code>index.js</code>), we add a route for the <code>POST</code> request to send the request to the server and retrive the data based on the filter.
+                The query will return the data and based on the data, we render the result page as follows:
+            </p>
+            <pre><code>
+                app.post('/filter', (req, res) => {
+                    viewOption = req.body.viewOption
+                    if (!req.body.searchText) {
+                      var searchText = ''
+                    }
+                    else {
+                      var searchText = req.body.searchText
+                    }
+                    if (!req.body.priceFilter) {
+                      price = defaultPrice
+                    }
+                    else {
+                      price = req.body.priceFilter
+                    }
+                    var sql = `SELECT * FROM products 
+                      WHERE (price < ${price})
+                        AND (name LIKE '%${searchText}%' OR description LIKE '%${searchText}%');`
+                    console.log(sql)
+                    console.log(req.body.searchText)
+                    rows = db.prepare(sql).all()
+                    res.render('products', {
+                      title: 'Products',
+                      isLoggedIn: isLoggedIn,
+                      data: rows,
+                      priceValue: price,
+                      username: username,
+                      viewOption: viewOption
+                    })
+                  })
+            </code></pre>
+            <p>
+                Another example of dynamic content and routing in this project is the use case of log in/log out. For example:
+            </p>
+            <div class="row">
+                <div class="col-6 mx-auto">
+                    <figure>
+                        <img class="img-fluid" src="images/login.png" alt="Login">
+                        <figcaption style="text-align: center;">Login</figcaption>
+                    </figure>
+                </div>
+                <div class="col-6">
+                    <figure>
+                        <img class="img-fluid" src="images/logout.png" alt="Logout">
+                        <figcaption style="text-align: center;">Logout</figcaption>
+                    </figure>
+        
+            </div>
+            <p>
+                It is dynamically generated using EJS template, based on the value of the global variable <code>isLoggedIn</code> in the server. This variable is set default as <code>false</code> and will be updated when user logs in successfully.
+                Of course, there will be authentication in the logging in process. This will be explained in another blog post.
+            </p>
+        </div>
+        <div class="col-1"></div>
+    </div>
+</div>
+
+<%- include('footer'); -%>

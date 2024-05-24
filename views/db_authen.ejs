@@ -1,0 +1,101 @@
+<%- include('header'); -%>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <h1 class="mx-0">NEW DATABASE APPROACH AND AUTHENTICATION</h1>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <p>
+                This post will demonstrate the implementation of another database approach and authentication in user login process.
+            </p>
+            <h2>New database</h2>
+            <p>
+                First, for the database, I replace <code>sqlite3</code> with <code>better-sqlite3</code> package. To install, in the terminal, run the code <code>npm install better-sqlite3</code>.
+            </p>
+            <p>
+                To create a new database, run the following code, note that I use local database file (<code>.db</code>) instead of in-memory database:
+            </p>
+            <pre><code>
+const Database = require('better-sqlite3')
+var db = new Database('new_data.db')
+            </code></pre>
+            <p>
+                About the syntax, <code>better-sqlite3</code> is slightly different from <code>sqlite3</code>, we can see the documentation of <code>better-sqlite3</code> <a href="https://github.com/WiseLibs/better-sqlite3/blob/master/docs/api.md">here</a>.
+            </p>
+            <p>
+                Below are some of the use cases in this project, using <code>better-sqlite3</code>.
+            </p>
+            <p>
+                Drop tables and create new tables:
+            </p>
+            <pre><code>
+db.prepare('DROP TABLE IF EXISTS table_name;').run()
+db.prepare('CREATE TABLE IF NOT EXISTS table_name (id INTEGER PRIMARY KEY AUTOINCREMENT, field1 TEXT, field2 TEXT);').run()
+            </code></pre>
+            <p>
+                Insert data:
+            </p>
+            <pre><code>
+var sql = `INSERT OR IGNORE INTO table_name (field1, field2, field3) VALUES (value1, value2, value3);`
+db.prepare(sql).run()
+            </code></pre>
+            <p>
+                Retrieve data:
+            </p>
+            <pre><code>
+var sql = 'SELECT * FROM table_name'
+rows = db.prepare(sql).all()
+            </code></pre>
+            <h2>Authentication</h2>
+            <p>
+                The idea of authentication is not sending/storing sensitive information, such as password in plain text. To do that, these data are usually hashed before being inserted into the database.
+                A popular hashing algorithm is SHA256. This algorithm converts the raw data into a hash string. In this section, I will demonstrate the user login process in this project using SHA256 algorithm.
+            </p>
+            <p>
+                First, in the database, we will insert the user data into the database with hashed password. For example, a user with the plain password "123456" will be stored in the table as
+            </p>
+            <pre><code>
+{
+    "id": 1,
+    "username": "Cong",
+    "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"
+}
+            </code></pre>
+            <p>
+                In the server side, to check to password if it matches the password stored in the database, first we have to create a function to return the hashed string of a plain text password:
+            </p>
+            <pre><code>
+const { createHash } = require('crypto');
+
+function hash(string) {
+  return createHash('sha256').update(string).digest('hex');
+}
+            </code></pre>
+            <p>
+                Then, when user send logging in request to login, we will use the hashed string to compare with the password stored in the database
+            </p>
+            <pre><code>
+// isLoggedIn = false - default is set as false
+app.post('/login', (req, res) => {
+    var sql = `SELECT COUNT(1) AS count FROM user_table WHERE username = '${req.body.username}' AND password = '${hash(req.body.password)}';`
+    rows = db.prepare(sql).get()
+    if (rows.count > 0) {  // check if a matched record exists
+        isLoggedIn = true // change the status of login to true
+        // render the logged template
+    } else {
+        // render the not logged template
+    }
+})
+            </code></pre>
+        </div>
+        <div class="col-1"></div>
+    </div>
+</div>
+
+<%- include('footer'); -%>

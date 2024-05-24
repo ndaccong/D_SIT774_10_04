@@ -184,6 +184,23 @@ app.post('/filter', (req, res) => {
   })
 })
 
+// Blog contents
+app.get('/filter_and_styling', (req, res) => {
+  res.render('filter_and_styling', {
+    title: 'Blog',
+    isLoggedIn: isLoggedIn,
+    username: username
+  })
+})
+
+app.get('/db_authen', (req, res) => {
+  res.render('db_authen', {
+    title: 'Blog',
+    isLoggedIn: isLoggedIn,
+    username: username
+  })
+})
+
 
 // Tell our application to serve all the files under the `public_html` directory
 app.use(express.static('public_html'))
